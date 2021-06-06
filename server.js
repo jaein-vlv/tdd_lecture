@@ -2,6 +2,7 @@ const express = require('express');
 
 const PORT = 9898;
 const app = express();
+app.use(express.json());
 const productRoutes = require('./routes');
 const mongoose = require('mongoose');
 
@@ -20,5 +21,11 @@ app.get('/', (req, res) => {
   res.send('hello')
 });
 
+app.use((error, req, res, next) => {
+  res.status(500).json({message: error.message})
+});
+
 app.listen(PORT);
-console.log('Running..')
+console.log('Running..');
+
+module.exports = app;
